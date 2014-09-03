@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sql2neo module &mdash; sql2neo 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="sql2neo 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">sql2neo 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-sql2neo">
+<span id="sql2neo-module"></span><h1>sql2neo module<a class="headerlink" href="#module-sql2neo" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="sql2neo.sql2NeoEntity">
+<em class="property">class </em><tt class="descclassname">sql2neo.</tt><tt class="descname">sql2NeoEntity</tt><big>(</big><em>name</em>, <em>query</em>, <em>pMapping={}</em>, <em>idx=</em><span class="optional">[</span><span class="optional">]</span>, <em>unq=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>sql2NeoEntity defines a SQL entity that will be migrated to Neo4j.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; The entity&#8217;s name in Neo4j, does not have to be unique.</li>
+<li><strong>query</strong> (<em>string</em>) &#8211; SQL query to retrieve all instances of the relationship to be exported</li>
+<li><strong>pMapping</strong> &#8211; An <em>optional</em> dictionary to re-map sql column descriptions to new Neo4j names. The format ist {ReturnIndex:&#8217;newName&#8217;}. If none is given the SQL names will be used. If one is partially filled all remaining columns will be dropped unless the autoMap property is set to True</li>
+<li><strong>idx</strong> (<em>list of str</em>) &#8211; A list of fields that will be indexed in Neo4j.</li>
+<li><strong>unq</strong> (<em>list of str</em>) &#8211; A list of fields that will be indexed and have an unique constraint in Neo4j.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.autoMap">
+<tt class="descname">autoMap</tt><em class="property"> = False</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.autoMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Migrate not mapped fields using the SQL column name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoEntity.buildCardinalityQuery">
+<tt class="descname">buildCardinalityQuery</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoEntity.buildCardinalityQuery" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoEntity.buildCreateQuery">
+<tt class="descname">buildCreateQuery</tt><big>(</big><em>mappedEntity</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoEntity.buildCreateQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a Cypher query to create a node from a mapped sql entity</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoEntity.buildVerifyQuery">
+<tt class="descname">buildVerifyQuery</tt><big>(</big><em>mappedEntity</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoEntity.buildVerifyQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a Cypher query to create a node from a mapped sql entity</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoEntity.execute">
+<tt class="descname">execute</tt><big>(</big><em>sqlConnection</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoEntity.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>executes <em>query</em> and returns the results (or -1 if it fails)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoEntity.getMappedEntity">
+<tt class="descname">getMappedEntity</tt><big>(</big><em>row</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoEntity.getMappedEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a mapped instance of the result (MySQLdb row)
+row is expected to be a row from the last query of the last execute</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.importer">
+<tt class="descname">importer</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.importer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The importer handling this entity, will be set as the entity is added to a sql2NeoImporter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.indexes">
+<tt class="descname">indexes</tt><em class="property"> = []</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of properties to be indexed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.name">
+<tt class="descname">name</tt><em class="property"> = ''</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Will be used for the Neo4j label as well</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.propertyMapping">
+<tt class="descname">propertyMapping</tt><em class="property"> = {}</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.propertyMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>index in the sql result =&gt; Neo4j porperty name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.query">
+<tt class="descname">query</tt><em class="property"> = ''</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQL Query used for export</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.results">
+<tt class="descname">results</tt><em class="property"> = -1</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of results will be written by itlImporter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoEntity.uniques">
+<tt class="descname">uniques</tt><em class="property"> = []</em><a class="headerlink" href="#sql2neo.sql2NeoEntity.uniques" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of properties to be unique</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="sql2neo.sql2NeoImporter">
+<em class="property">class </em><tt class="descclassname">sql2neo.</tt><tt class="descname">sql2NeoImporter</tt><big>(</big><em>sqlConfig</em>, <em>neo4jConfig</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>sql2NeoImporter allows the import of SQL databases to Neo4j currently Entities (Data tables) and Relationships (Tables and foreign keys) are supported.</p>
+<dl class="exception">
+<dt id="sql2neo.sql2NeoImporter.TypeNotCompatible">
+<em class="property">exception </em><tt class="descname">TypeNotCompatible</tt><big>(</big><em>type</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.TypeNotCompatible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="sql2neo.sql2NeoImporter.TypeNotImplemented">
+<em class="property">exception </em><tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">TypeNotImplemented</tt><big>(</big><em>type</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.TypeNotImplemented" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.addEntity">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">addEntity</tt><big>(</big><em>e</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.addEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a sql2NeoEntity to the importer job</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.addRelationship">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">addRelationship</tt><big>(</big><em>r</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.addRelationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a sql2NeoRelationship to the importer job</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.convertDataType">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">convertDataType</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.convertDataType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a datatype recieved from SQL to a Neo4j compatible type. Especially DateTime Types have to be converted to Unix timestamps. Not implemented/unknown types will throw an <em>TypeNotImplemented</em> or <em>TypeNotCompatible</em> exception. Returns the data converted to the new type</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoImporter.convertedTypes">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">convertedTypes</tt><em class="property"> = [&lt;type 'datetime.time'&gt;, &lt;type 'datetime.datetime'&gt;, &lt;type 'datetime.date'&gt;, &lt;type 'datetime.timedelta'&gt;, &lt;type 'NoneType'&gt;]</em><a class="headerlink" href="#sql2neo.sql2NeoImporter.convertedTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Types that will be converted in <em>convertedTypes</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.createIndexes">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">createIndexes</tt><big>(</big><em>textOnly=True</em>, <em>useTx=None</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.createIndexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and executes the cypher queries for all entities&#8217; indexes. Returns True on sucesss and False on error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.createUniques">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">createUniques</tt><big>(</big><em>textOnly=True</em>, <em>useTx=None</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.createUniques" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and executes the cypher queries for all entities&#8217; unique constraints. Returns True on sucesss and False on error</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoImporter.entities">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">entities</tt><em class="property"> = []</em><a class="headerlink" href="#sql2neo.sql2NeoImporter.entities" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of entities to migrate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.escapeCypher">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">escapeCypher</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.escapeCypher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Escapes a cypher string, currently only escapes &#8216; -&gt; &#8216;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.importAll">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">importAll</tt><big>(</big><em>textOnly=False</em>, <em>withIndexesAndUniques=True</em>, <em>useSingleTx=False</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.importAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import all entities, relationships and (optional) indexes and uniques
+textOnly - if true prints out Cypher queries instead of executing them
+withIndexesAndUniques - if true imports schema updates as well
+useSingleTx - if true uses a single transaction for entites an relationships. Schema changes can not be performed within the same transaction then data changes so if withIndexesAndUniques is true actually two transactions will be used</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.importEntites">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">importEntites</tt><big>(</big><em>textOnly=True</em>, <em>useTx=None</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.importEntites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports all entities. Returns True on success and False on error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.importRelationships">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">importRelationships</tt><big>(</big><em>textOnly=True</em>, <em>useTx=None</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.importRelationships" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports all relationships. Returns True on success and False on error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.initNeo4jConnection">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">initNeo4jConnection</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.initNeo4jConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to a Neo4j Server config.URL is expected to be the URL to a connectable Server. For example: <a class="reference external" href="http://localhost:7474/db/data/">http://localhost:7474/db/data/</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.initSqlConnection">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">initSqlConnection</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.initSqlConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to a MySQL Server. Currently used: config.HOST, config.USER, config.PWD, config.DB</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.mappedToCypher">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">mappedToCypher</tt><big>(</big><em>mappedEntity</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.mappedToCypher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Cypher query to insert a mapped entity into the graph</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoImporter.neo4jConnection">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">neo4jConnection</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoImporter.neo4jConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Neo4j Connection (py2neo)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoImporter.notChangingTypes">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">notChangingTypes</tt><em class="property"> = [&lt;type 'int'&gt;, &lt;type 'float'&gt;, &lt;type 'str'&gt;, &lt;type 'long'&gt;]</em><a class="headerlink" href="#sql2neo.sql2NeoImporter.notChangingTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Python types that will be kept when importing into Neo4j</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoImporter.relationships">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">relationships</tt><em class="property"> = []</em><a class="headerlink" href="#sql2neo.sql2NeoImporter.relationships" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of relationships to migrate</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoImporter.sqlConnection">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">sqlConnection</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoImporter.sqlConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQL Connection (MySQLdb)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.testEntities">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">testEntities</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.testEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests all entity queries and prints out the first result of the query as well as the corresponding generated Cypher query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.testRelationships">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">testRelationships</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.testRelationships" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests all relationship queries and prints out the first result of the query as well as the corresponding generated Cypher query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.verifyEntityImport">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">verifyEntityImport</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.verifyEntityImport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the import if entities. Returns True on success and False on error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.verifyImport">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">verifyImport</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.verifyImport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies that the import of all entites and relationships was completed.
+This is not reliable if there are duplicated, indistinguishable rows in MySQL</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoImporter.verifyRelationshipImport">
+<tt class="descclassname">sql2NeoImporter.</tt><tt class="descname">verifyRelationshipImport</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoImporter.verifyRelationshipImport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the import if entities. Returns True on success and False on error</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="sql2neo.sql2NeoRelationship">
+<em class="property">class </em><tt class="descclassname">sql2neo.</tt><tt class="descname">sql2NeoRelationship</tt><big>(</big><em>name</em>, <em>leftEntity</em>, <em>rightEntitiy</em>, <em>query</em>, <em>lookupMapping</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoRelationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>sql2NeoRelationship a SQL relationship that will be migrated to Neo4j.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; <cite>str</cite> of the relationship name in Neo4j and does not have to be unique. Upper case Strings without special characters except for &#8216;_&#8217; are enforced.</li>
+<li><strong>leftEntity</strong> (<em>sql2NeoEntity</em>) &#8211; relationship&#8217;s outgoing entity</li>
+<li><strong>rightEntitiy</strong> (<em>sql2NeoEntity</em>) &#8211; relationship&#8217;s inbound entity</li>
+<li><strong>query</strong> (<em>string</em>) &#8211; SQL query to retrieve all instances of the relationship to be exported</li>
+<li><strong>lookupMapping</strong> (<em>array of dictionaires</em>) &#8211; The first dictionary contains the mapping for <em>leftEntity</em> and the second for <em>rightEntitiy</em>. Every dictionary is expected to be in the form &lt;propertyName&gt;:&lt;index of SQL result&gt;. The dictionaries will be used to map the query&#8217;s return values to the corresponding properties in Neo4j when looking up the nodes that will be connected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="sql2neo.sql2NeoRelationship.buildCardinalityQuery">
+<tt class="descname">buildCardinalityQuery</tt><big>(</big><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoRelationship.buildCardinalityQuery" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoRelationship.buildCreateQuery">
+<tt class="descname">buildCreateQuery</tt><big>(</big><em>mappedLookup</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoRelationship.buildCreateQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a Cypher query to create a relationship from a mapped sql lookup. NOTE: The corresponding entites have to be imported first</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoRelationship.buildVerifyQuery">
+<tt class="descname">buildVerifyQuery</tt><big>(</big><em>mappedLookup</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoRelationship.buildVerifyQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a Cypher query to create a relationship from a mapped sql lookup. NOTE: The corresponding entites have to be imported first</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.cursor">
+<tt class="descname">cursor</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.cursor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current mysql cursor</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoRelationship.execute">
+<tt class="descname">execute</tt><big>(</big><em>sqlConnection</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoRelationship.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>executes        <cite>query</cite> and returns the results (or -1 if it fails)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sqlConnection</strong> (<em>MySQLdb.connection</em>) &#8211; An initialized SQL connection. Is normally handled via <cite>sql2NeoImporter</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sql2neo.sql2NeoRelationship.getMappedLookup">
+<tt class="descname">getMappedLookup</tt><big>(</big><em>row</em><big>)</big><a class="headerlink" href="#sql2neo.sql2NeoRelationship.getMappedLookup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a mapped instance of the result (MySQLdb row) row is expected to be a row from the last execute</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>row</strong> (<em>MySQLdb cursor result</em>) &#8211; row from sql result</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.importer">
+<tt class="descname">importer</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.importer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The importer handling this relationship, will be set as the relationship is added to a sql2NeoImporter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.leftEntity">
+<tt class="descname">leftEntity</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.leftEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left hand side entity of all Relationships</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.lookupMapping">
+<tt class="descname">lookupMapping</tt><em class="property"> = [{}, {}]</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.lookupMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of two dictionaries defining which properties are used to lookup the nodes that will be connected. The first dictionary declares the lookup for the left entity, the second one for the right one. the value for each entry has to be the index of the value in query that is to be used for the lookup. E.g. name and age should be used and will be returned in this order by <em>query</em> the mapping would be [{&#8216;name&#8217;:0},{&#8216;age&#8217;:1}]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.name">
+<tt class="descname">name</tt><em class="property"> = ''</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>defines the relationship name in Neo4j and does not have to be unique. Upper case Strings without special characters except for &#8216;_&#8217; are enforced.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.query">
+<tt class="descname">query</tt><em class="property"> = ''</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQL Query to recieve all relationships that have to be migrated. Joins can be used to replace ids with an identifier that is available in Neo4j</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.results">
+<tt class="descname">results</tt><em class="property"> = -1</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Result count of the last query executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sql2neo.sql2NeoRelationship.rightEntitiy">
+<tt class="descname">rightEntitiy</tt><em class="property"> = None</em><a class="headerlink" href="#sql2neo.sql2NeoRelationship.rightEntitiy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right hand side entity of all Relationships</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/sql2neo.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">sql2neo 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Patrick Helmig.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    </div>
+  </body>
+</html>
